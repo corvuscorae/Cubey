@@ -1,3 +1,4 @@
+// Raven Cruz-James
 class Smiley extends Phaser.Scene {
     constructor() {
         super("smileyScene");
@@ -21,6 +22,9 @@ class Smiley extends Phaser.Scene {
         
         this.counter = 0;
         this.smileType = 'Smile';
+
+        // Polling input: peace hand (1)
+        this.pKey = null;
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -65,42 +69,39 @@ class Smiley extends Phaser.Scene {
         my.sprite.dimple.visible = false;
         my.sprite.leftPeaceHand.visible = false;
         my.sprite.rightPeaceHand.visible = false;
+
+        // Polling input: peace hand(2)
+        this.pKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+        // Event input: dimple smile
+        let dKey =  this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        dKey.on('down', (key, event) => {
+            my.sprite.smile.visible = false;
+            my.sprite.dimple.visible = true;
+        });
+
+        // Event input: regular smile
+        let sKey =  this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        sKey.on('down', (key, event) => {
+            my.sprite.smile.visible = true;
+            my.sprite.dimple.visible = false;
+        });
     }
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
-
-        // Since update is called multiple times/second, this.counter acts like
-        // a timer, increasing once per clock tick
-        this.counter++;
-
-        if (this.counter % 120 == 0) {  // Do this once every 120 calls to update()
-            switch (this.smileType) {
-                case "Smile":
-                    // Currently a regular smile, so change to dimple smile
-                    this.smileType = "Dimple";
-                    my.sprite.smile.visible = false;
-                    my.sprite.dimple.visible = true;
-                    // hnads
-                    my.sprite.leftPeaceHand.visible = true;
-                    my.sprite.rightPeaceHand.visible = true;
-                    my.sprite.leftOpenHand.visible = false;
-                    my.sprite.rightOpenHand.visible = false;
-                    break;
-                case "Dimple":
-                    // Currently a dimple smile, so change to regular smile
-                    this.smileType = "Smile";
-                    my.sprite.dimple.visible = false;
-                    my.sprite.smile.visible = true;
-                    // hnads
-                    my.sprite.leftPeaceHand.visible = false;
-                    my.sprite.rightPeaceHand.visible = false;
-                    my.sprite.leftOpenHand.visible = true;
-                    my.sprite.rightOpenHand.visible = true;
-                    break;
-                default:
-                    console.log("Error: unknown smile");
-            }
+        
+        // Polling input: peace hand (3)
+        if(this.pKey.isDown){
+            my.sprite.leftPeaceHand.visible = true;
+            my.sprite.rightPeaceHand.visible = true;
+            my.sprite.leftOpenHand.visible = false;
+            my.sprite.rightOpenHand.visible = false;
+        } else {
+            my.sprite.leftPeaceHand.visible = false;
+            my.sprite.rightPeaceHand.visible = false;
+            my.sprite.leftOpenHand.visible = true;
+            my.sprite.rightOpenHand.visible = true;
         }
     }
 
