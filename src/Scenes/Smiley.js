@@ -35,6 +35,7 @@ class Smiley extends Phaser.Scene {
         this.load.image("smileDimple", "face_c.png");
         // hands
         this.load.image("handOpen", "hand_yellow_open.png");
+        this.load.image("handPeace", "hand_yellow_peace.png");
 
         // update instruction text
         document.getElementById('description').innerHTML = '<h2>Smiley.js</h2>'
@@ -54,10 +55,16 @@ class Smiley extends Phaser.Scene {
         my.sprite.leftOpenHand = this.add.sprite(this.leftHandX, this.lefthandY, "handOpen");
         my.sprite.leftOpenHand.flipX = true;   // flip sprite to have thumb on correct side
         my.sprite.rightOpenHand = this.add.sprite(this.rightHandX, this.rightHandY, "handOpen");
+        // peace sign hands
+        my.sprite.leftPeaceHand = this.add.sprite(this.leftHandX, this.lefthandY, "handPeace");
+        my.sprite.leftPeaceHand.flipX = true;   // flip sprite to have thumb on correct side
+        my.sprite.rightPeaceHand = this.add.sprite(this.rightHandX, this.rightHandY, "handPeace");
 
         // Since sprites are visible when created and we only want one smile to be shown
         // at a time, make the "dimple" smile not visible to start.
         my.sprite.dimple.visible = false;
+        my.sprite.leftPeaceHand.visible = false;
+        my.sprite.rightPeaceHand.visible = false;
     }
 
     update() {
@@ -74,12 +81,22 @@ class Smiley extends Phaser.Scene {
                     this.smileType = "Dimple";
                     my.sprite.smile.visible = false;
                     my.sprite.dimple.visible = true;
+                    // hnads
+                    my.sprite.leftPeaceHand.visible = true;
+                    my.sprite.rightPeaceHand.visible = true;
+                    my.sprite.leftOpenHand.visible = false;
+                    my.sprite.rightOpenHand.visible = false;
                     break;
                 case "Dimple":
                     // Currently a dimple smile, so change to regular smile
                     this.smileType = "Smile";
                     my.sprite.dimple.visible = false;
                     my.sprite.smile.visible = true;
+                    // hnads
+                    my.sprite.leftPeaceHand.visible = false;
+                    my.sprite.rightPeaceHand.visible = false;
+                    my.sprite.leftOpenHand.visible = true;
+                    my.sprite.rightOpenHand.visible = true;
                     break;
                 default:
                     console.log("Error: unknown smile");
