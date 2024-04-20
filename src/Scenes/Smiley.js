@@ -25,6 +25,7 @@ class Smiley extends Phaser.Scene {
 
         // Polling input: peace hand (1)
         this.pKey = null;
+        this.mKey = null;
     }
 
     // Use preload to load art and sound assets before the scene starts running.
@@ -86,6 +87,8 @@ class Smiley extends Phaser.Scene {
             my.sprite.smile.visible = true;
             my.sprite.dimple.visible = false;
         });
+
+        
     }
 
     update() {
@@ -102,6 +105,15 @@ class Smiley extends Phaser.Scene {
             my.sprite.rightPeaceHand.visible = false;
             my.sprite.leftOpenHand.visible = true;
             my.sprite.rightOpenHand.visible = true;
+        }
+        
+        // transition to "mouseSmiley" scene
+        this.mKey =  this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+            for(const part in my.sprite){
+                my.sprite[part].visible = false;
+            }
+            this.scene.start("mouseSmiley");
         }
     }
 
